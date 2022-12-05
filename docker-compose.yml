@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    environment:
+      DISCORD_WEBHOOK: ${DISCORD_WEBHOOK}
+      TEAM_NAME: ${TEAM_NAME}
