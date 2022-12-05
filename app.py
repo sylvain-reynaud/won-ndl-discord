@@ -29,6 +29,7 @@ if team_name is None:
 
 # Counter for the number of times team_name appears
 team_name_count = 0
+previous_team_name_count = -1
 
 while True:
   # Send a GET request to the URL
@@ -42,18 +43,20 @@ while True:
   # Check if the content has changed
   if content != previous_content:
     # Increment the counter for each occurrence of "team_name" in the content
-    team_name_count += content.count(team_name)
+    team_name_count = content.count(team_name)
 
-    # Create a Discord webhook message
-    message_content = f"'team_name' has appeared {team_name_count} times in {url}"
-    print(message_content)
-    message = {
-      "content": message_content
-    }
+    if previous_team_name_count != team_name_count:
+      # Create a Discord webhook message
+      message_content = f"{team_name} has appeared {team_name_count} times in {url}"
+      print(message_content)
+      message = {
+        "content": message_content
+      }
 
-    response = requests.post(webhook_url, json=message)
+      response = requests.post(webhook_url, json=message)
 
     previous_content = content
+    previous_team_name_count = team_name_count
 
   # Sleep for one hour
   time.sleep(3600)
